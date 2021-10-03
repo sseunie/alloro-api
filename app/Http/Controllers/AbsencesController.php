@@ -14,8 +14,20 @@ class AbsencesController extends Controller
         return response()->json(Absence::where('user_id', $request->userId)->get());
     }
 
-    public function createAbsence()
+    public function createAbsence(Request $request): JsonResponse
     {
+        if (!$request->has('observations') || !$request->has('userId') ||
+            !$request->has('startDate') || !$request->has('finishDate')) {
+            return response()->json(['message' => 'Bad request'], 400);
+        }
 
+        $absence = Absence::create([
+            'observations' => $request->input('observations'),
+            'start_date' => $request->input('startDate'),
+            'finish_date' => $request->input('finishDate'),
+            'user_id' => $request->input('userId')
+        ]);
+
+        return response()->json($absence);
     }
 }
