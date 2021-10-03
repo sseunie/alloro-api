@@ -23,9 +23,23 @@ class IncidencesController extends Controller
         return response()->json($incidence);
     }
 
-    public function createIncidence()
+    public function createIncidence(Request $request)
     {
+        if (!$request->has('residence') || !$request->has('area') ||
+            !$request->has('subject') || !$request->has('message') ||
+            !$request->has('userId')) {
+            return response()->json(['message' => 'Bad request'], 400);
+        }
 
+        $incidence = Incidence::create([
+            'residence_id' => $request->input('residence'),
+            'incidence_area_id' => $request->input('area'),
+            'subject' => $request->input('subject'),
+            'message' => $request->input('message'),
+            'user_id' => $request->input('userId')
+        ]);
+
+        return response()->json($incidence);
     }
 
     public function getResidences(): JsonResponse
