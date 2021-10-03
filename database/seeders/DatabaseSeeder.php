@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
             ResidenceSeeder::class,
             IncidenceAreaSeeder::class,
             IncidenceSeeder::class,
-            AbsenceSeeder::class
+            AbsenceSeeder::class,
+            NotificationSeeder::class
         ]);
     }
 }

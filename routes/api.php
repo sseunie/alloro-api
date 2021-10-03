@@ -3,6 +3,7 @@
 use App\Http\Controllers\AbsencesController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\IncidencesController;
+use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'login']);
 
-//Route::get('/notifications', [AuthController::class, 'login']);
+Route::get('/notifications', [NotificationsController::class, 'getNotifications']);
 
 Route::get('/residences', [IncidencesController::class, 'getResidences']);
 Route::get('/incidenceAreas', [IncidencesController::class, 'getIncidenceAreas']);
