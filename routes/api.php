@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AbsencesController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\IncidencesController;
 use App\Http\Controllers\UsersController;
@@ -27,5 +28,5 @@ Route::middleware('auth:sanctum')->get('/users/{id}', [UsersController::class, '
 Route::middleware('auth:sanctum')->get('/incidences', [IncidencesController::class, 'getIncidences']);
 Route::middleware('auth:sanctum')->get('/incidences/{id}', [IncidencesController::class, 'getIncidence']);
 Route::middleware('auth:sanctum')->post('/incidences', [IncidencesController::class, 'createIncidence']);
-//Route::middleware('auth:sanctum')->get('/absences', [AuthController::class, 'login']);
-//Route::middleware('auth:sanctum')->post('/absences', [AuthController::class, 'login']);
+Route::middleware('auth:sanctum')->get('/absences', [AbsencesController::class, 'getAbsences']);
+Route::middleware('auth:sanctum')->post('/absences', [AbsencesController::class, 'createAbsence']);
