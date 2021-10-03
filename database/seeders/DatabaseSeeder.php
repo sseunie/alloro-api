@@ -16,7 +16,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             ResidenceSeeder::class,
-            IncidenceAreaSeeder::class
+            IncidenceAreaSeeder::class,
+            IncidenceSeeder::class
         ]);
     }
 }
