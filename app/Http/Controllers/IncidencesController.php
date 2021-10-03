@@ -10,20 +10,20 @@ use Illuminate\Http\Request;
 
 class IncidencesController extends Controller
 {
-    public function getIncidences(Request $request)
+    public function getIncidences(Request $request): JsonResponse
     {
         if (!$request->has('userId')) return response()->json(['message' => 'User id must be specified'], 400);
         return response()->json(Incidence::with('messages')->where('user_id', $request->userId)->get());
     }
 
-    public function getIncidence(Request $request, $id)
+    public function getIncidence(Request $request, $id): JsonResponse
     {
         $incidence = Incidence::with('messages')->where('id', $id)->first();
         if (!$incidence) return response()->json(['message' => 'Incidence not found'], 404);
         return response()->json($incidence);
     }
 
-    public function createIncidence(Request $request)
+    public function createIncidence(Request $request): JsonResponse
     {
         if (!$request->has('residence') || !$request->has('area') ||
             !$request->has('subject') || !$request->has('message') ||
