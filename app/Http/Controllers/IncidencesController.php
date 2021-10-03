@@ -16,9 +16,11 @@ class IncidencesController extends Controller
         return response()->json(Incidence::with('messages')->where('user_id', $request->userId)->get());
     }
 
-    public function getIncidence()
+    public function getIncidence(Request $request, $id)
     {
-
+        $incidence = Incidence::with('messages')->where('id', $id)->first();
+        if (!$incidence) return response()->json(['message' => 'Incidence not found'], 404);
+        return response()->json($incidence);
     }
 
     public function createIncidence()
