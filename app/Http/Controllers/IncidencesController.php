@@ -49,7 +49,7 @@ class IncidencesController extends Controller
         foreach ($files as $filesEntry) {
             for ($i = 0; $i < sizeof($filesEntry); $i++) {
                 $file = $filesEntry[$i];
-                $filename = 1 . '_' . $i . '.' . $file->extension();
+                $filename = $incidence->id . '_' . $i . '.' . $file->extension();
                 Storage::putFileAs('public/incidences', $file, $filename);
                 IncidenceFile::create([
                     'incidence_id' => $incidence->id,
