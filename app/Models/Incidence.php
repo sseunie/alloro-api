@@ -21,4 +21,9 @@ class Incidence extends Model
     {
         return $this->hasMany(Message::class);
     }
+
+    public function images()
+    {
+        return $this->hasMany(IncidenceFile::class);
+    }
 }

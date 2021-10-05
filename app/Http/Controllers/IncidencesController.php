@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Incidence;
 use App\Models\IncidenceArea;
+use App\Models\IncidenceFile;
 use App\Models\Residence;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class IncidencesController extends Controller
 {
@@ -16,7 +18,7 @@ class IncidencesController extends Controller
         return response()->json(Incidence::with('messages')->where('user_id', $request->userId)->get());
     }
 
-    public function getIncidence(Request $request, $id): JsonResponse
+    public function getIncidence($id): JsonResponse
     {
         $incidence = Incidence::with('messages')->where('id', $id)->first();
         if (!$incidence) return response()->json(['message' => 'Incidence not found'], 404);
@@ -31,6 +33,11 @@ class IncidencesController extends Controller
             return response()->json(['message' => 'Bad request'], 400);
         }
 
+        $files = $request->allFiles();
+        if ($this->filesAreInvalid($files)) {
+            return response()->json(['message' => 'file mime type not allowed'], 400);
+        }
+
         $incidence = Incidence::create([
             'residence_id' => $request->input('residence'),
             'incidence_area_id' => $request->input('area'),
@@ -39,7 +46,20 @@ class IncidencesController extends Controller
             'user_id' => $request->input('userId')
         ]);
 
-        return response()->json($incidence);
+        foreach ($files as $filesEntry) {
+            for ($i = 0; $i < sizeof($filesEntry); $i++) {
+                $file = $filesEntry[$i];
+                $filename = 1 . '_' . $i . '.' . $file->extension();
+                Storage::putFileAs('public/incidences', $file, $filename);
+                IncidenceFile::create([
+                    'incidence_id' => $incidence->id,
+                    'url' => asset('storage/incidences/' . $filename),
+                    'mime_type' => $file->getMimeType()
+                ]);
+            }
+        }
+
+        return response()->json(Incidence::with('images')->where('id', $incidence->id)->first());
     }
 
     public function getResidences(): JsonResponse
@@ -50,5 +70,19 @@ class IncidencesController extends Controller
     public function getIncidenceAreas(): JsonResponse
     {
         return response()->json(IncidenceArea::all());
+    }
+
+    private function filesAreInvalid($files): bool
+    {
+        $allowedMimeTypes = ['image/jpeg','image/gif','image/png','image/bmp'];
+
+        foreach ($files as $filesEntry) {
+            foreach ($filesEntry as $file) {
+                if (!in_array($file->getMimeType(), $allowedMimeTypes)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
