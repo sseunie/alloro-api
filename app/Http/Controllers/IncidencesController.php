@@ -15,12 +15,16 @@ class IncidencesController extends Controller
     public function getIncidences(Request $request): JsonResponse
     {
         if (!$request->has('userId')) return response()->json(['message' => 'User id must be specified'], 400);
-        return response()->json(Incidence::with('messages')->where('user_id', $request->userId)->get());
+        return response()->json(Incidence::with('messages')
+            ->with('files')
+            ->where('user_id', $request->userId)->get());
     }
 
     public function getIncidence($id): JsonResponse
     {
-        $incidence = Incidence::with('messages')->where('id', $id)->first();
+        $incidence = Incidence::with('messages')
+            ->where('files')
+            ->where('id', $id)->first();
         if (!$incidence) return response()->json(['message' => 'Incidence not found'], 404);
         return response()->json($incidence);
     }
@@ -59,7 +63,7 @@ class IncidencesController extends Controller
             }
         }
 
-        return response()->json(Incidence::with('images')
+        return response()->json(Incidence::with('files')
             ->with('messages')
             ->where('id', $incidence->id)->first());
     }

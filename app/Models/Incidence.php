@@ -22,7 +22,7 @@ class Incidence extends Model
         return $this->hasMany(Message::class);
     }
 
-    public function images()
+    public function files()
     {
         return $this->hasMany(IncidenceFile::class);
     }
