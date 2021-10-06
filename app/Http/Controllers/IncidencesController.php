@@ -59,7 +59,9 @@ class IncidencesController extends Controller
             }
         }
 
-        return response()->json(Incidence::with('images')->where('id', $incidence->id)->first());
+        return response()->json(Incidence::with('images')
+            ->with('messages')
+            ->where('id', $incidence->id)->first());
     }
 
     public function getResidences(): JsonResponse
