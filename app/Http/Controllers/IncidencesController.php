@@ -69,6 +69,8 @@ class IncidencesController extends Controller
 
         return response()->json(Incidence::with('files')
             ->with('messages')
+            ->with('residence')
+            ->with('incidence_area')
             ->where('id', $incidence->id)->first());
     }
 
