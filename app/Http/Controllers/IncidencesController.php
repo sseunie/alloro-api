@@ -17,13 +17,17 @@ class IncidencesController extends Controller
         if (!$request->has('userId')) return response()->json(['message' => 'User id must be specified'], 400);
         return response()->json(Incidence::with('messages')
             ->with('files')
+            ->with('residence')
+            ->with('incidence_area')
             ->where('user_id', $request->userId)->get());
     }
 
     public function getIncidence($id): JsonResponse
     {
         $incidence = Incidence::with('messages')
-            ->where('files')
+            ->with('files')
+            ->with('residence')
+            ->with('incidence_area')
             ->where('id', $id)->first();
         if (!$incidence) return response()->json(['message' => 'Incidence not found'], 404);
         return response()->json($incidence);

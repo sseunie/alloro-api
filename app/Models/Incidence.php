@@ -26,4 +26,14 @@ class Incidence extends Model
     {
         return $this->hasMany(IncidenceFile::class);
     }
+
+    public function incidence_area()
+    {
+        return $this->belongsTo(IncidenceArea::class);
+    }
+
+    public function residence()
+    {
+        return $this->belongsTo(Residence::class);
+    }
 }
