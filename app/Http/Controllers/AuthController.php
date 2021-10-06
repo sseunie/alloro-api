@@ -21,6 +21,7 @@ class AuthController extends Controller
         }
 
         return response()->json([
+            'id' => $user->id,
             'token' => $user->createToken('spa')->plainTextToken
         ]);
     }
