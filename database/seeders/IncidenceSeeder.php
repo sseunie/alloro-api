@@ -36,7 +36,7 @@ class IncidenceSeeder extends Seeder
             'text' => 'Gracias!',
             'incidence_id' => 1,
             'sender' => 'client',
-            'created_at' => Carbon::now()->modify('-40 hor')
+            'created_at' => Carbon::now()->modify('-40 hour')
         ]);
 
         DB::table('messages')->insert([
