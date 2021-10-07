@@ -21,6 +21,7 @@ class IncidenceSeeder extends Seeder
             'incidence_area_id' => 3,
             'residence_id' => 3,
             'user_id' => 1,
+            'closed' => true,
             'created_at' => Carbon::now()->modify('-3 day')
         ]);
 
@@ -32,10 +33,10 @@ class IncidenceSeeder extends Seeder
         ]);
 
         DB::table('messages')->insert([
-            'text' => 'Incidencia enviada al área indicada',
+            'text' => 'Gracias!',
             'incidence_id' => 1,
             'sender' => 'client',
-            'created_at' => Carbon::now()->modify('-2 day')
+            'created_at' => Carbon::now()->modify('-40 hor')
         ]);
 
         DB::table('messages')->insert([
