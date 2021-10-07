@@ -106,7 +106,8 @@ class IncidencesController extends Controller
 
         foreach ($files as $filesEntry) {
             foreach ($filesEntry as $file) {
-                if (!in_array($file->getMimeType(), $allowedMimeTypes)) {
+                if (!in_array($file->getMimeType(), $allowedMimeTypes) &&
+                    !str_contains($file->getMimeType(), 'audio/')) {
                     return true;
                 }
             }
