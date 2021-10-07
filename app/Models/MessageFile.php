@@ -5,18 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Message extends Model
+class MessageFile extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'incidence_id',
-        'text',
-        'sender'
-    ];
+    public $timestamps = false;
 
-    public function files()
-    {
-        return $this->hasMany(MessageFile::class);
-    }
+    protected $fillable = [
+        'message_id',
+        'url',
+        'mime_type'
+    ];
 }

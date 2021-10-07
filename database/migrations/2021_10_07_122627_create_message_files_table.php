@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMessagesTable extends Migration
+class CreateMessageFilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateMessagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('messages', function (Blueprint $table) {
+        Schema::create('message_files', function (Blueprint $table) {
             $table->id();
-            $table->string('text');
-            $table->string('sender');
-            $table->foreignId('incidence_id')->constrained();
-            $table->timestamps();
+            $table->foreignId('message_id')->constrained();
+            $table->string('url')->unique();
+            $table->string('mime_type');
         });
     }
 
@@ -29,6 +28,6 @@ class CreateMessagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('messages');
+        Schema::dropIfExists('message_files');
     }
 }

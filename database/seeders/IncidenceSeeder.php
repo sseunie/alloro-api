@@ -27,12 +27,21 @@ class IncidenceSeeder extends Seeder
         DB::table('messages')->insert([
             'text' => 'Incidencia enviada al área indicada',
             'incidence_id' => 1,
+            'sender' => 'residence',
+            'created_at' => Carbon::now()->modify('-2 day')
+        ]);
+
+        DB::table('messages')->insert([
+            'text' => 'Incidencia enviada al área indicada',
+            'incidence_id' => 1,
+            'sender' => 'client',
             'created_at' => Carbon::now()->modify('-2 day')
         ]);
 
         DB::table('messages')->insert([
             'text' => 'Mantenimiento comunica que la incidencia ha sido solucionada',
             'incidence_id' => 1,
+            'sender' => 'residence',
             'created_at' => Carbon::now()->modify('-1 day')
         ]);
 
@@ -48,6 +57,7 @@ class IncidenceSeeder extends Seeder
         DB::table('messages')->insert([
             'text' => 'Incidencia enviada al área indicada',
             'incidence_id' => 2,
+            'sender' => 'residence',
             'created_at' => Carbon::now()->modify('-2 minute')
         ]);
     }

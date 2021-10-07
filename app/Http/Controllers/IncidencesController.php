@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Incidence;
 use App\Models\IncidenceArea;
 use App\Models\IncidenceFile;
+use App\Models\Message;
+use App\Models\MessageFile;
 use App\Models\Residence;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -16,6 +18,7 @@ class IncidencesController extends Controller
     {
         if (!$request->has('userId')) return response()->json(['message' => 'User id must be specified'], 400);
         return response()->json(Incidence::with('messages')
+            ->with('messages.files')
             ->with('files')
             ->with('residence')
             ->with('incidence_area')
@@ -25,6 +28,7 @@ class IncidencesController extends Controller
     public function getIncidence($id): JsonResponse
     {
         $incidence = Incidence::with('messages')
+            ->with('messages.files')
             ->with('files')
             ->with('residence')
             ->with('incidence_area')
@@ -54,24 +58,36 @@ class IncidencesController extends Controller
             'user_id' => $request->input('userId')
         ]);
 
-        foreach ($files as $filesEntry) {
-            for ($i = 0; $i < sizeof($filesEntry); $i++) {
-                $file = $filesEntry[$i];
-                $filename = $incidence->id . '_' . $i . '.' . $file->extension();
-                Storage::putFileAs('public/incidences', $file, $filename);
-                IncidenceFile::create([
-                    'incidence_id' => $incidence->id,
-                    'url' => asset('storage/incidences/' . $filename),
-                    'mime_type' => $file->getMimeType()
-                ]);
-            }
-        }
+        $this->saveFiles($files, $incidence, 'incidences/');
 
         return response()->json(Incidence::with('files')
             ->with('messages')
             ->with('residence')
             ->with('incidence_area')
             ->where('id', $incidence->id)->first());
+    }
+
+    public function createMessage(Request $request, $id): JsonResponse
+    {
+        if (!$request->has('text') || !$request->has('userId')) {
+            return response()->json(['message' => 'Bad request'], 400);
+        }
+
+        $files = $request->allFiles();
+        if ($this->filesAreInvalid($files)) {
+            return response()->json(['message' => 'file mime type not allowed'], 400);
+        }
+
+        $message = Message::create([
+            'incidence_id' => $id,
+            'sender' => $request->input('userId') != 0 ? 'client' : 'residence',
+            'text' => $request->input('text')
+        ]);
+
+        $this->saveFiles($files, $message, 'incidences/messages/');
+
+        return response()->json(Message::with('files')
+            ->where('id', $message->id)->first());
     }
 
     public function getResidences(): JsonResponse
@@ -96,5 +112,21 @@ class IncidencesController extends Controller
             }
         }
         return false;
+    }
+
+    private function saveFiles($files, $model, $path): void
+    {
+        foreach ($files as $filesEntry) {
+            for ($i = 0; $i < sizeof($filesEntry); $i++) {
+                $file = $filesEntry[$i];
+                $filename = $model->id . '_' . $i . '.' . $file->extension();
+                Storage::putFileAs('public/'. $path, $file, $filename);
+                MessageFile::create([
+                    'message_id' => $model->id,
+                    'url' => asset('storage/'. $path . $filename),
+                    'mime_type' => $file->getMimeType()
+                ]);
+            }
+        }
     }
 }
