@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewMessage;
 use App\Models\Incidence;
 use App\Models\IncidenceArea;
 use App\Models\IncidenceFile;
@@ -85,6 +86,8 @@ class IncidencesController extends Controller
         ]);
 
         $this->saveFiles($files, $message, 'incidences/messages/');
+
+        if ($message->sender == 'residence') broadcast(new NewMessage($message->incidence_id))->toOthers();
 
         return response()->json(Message::with('files')
             ->where('id', $message->id)->first());
