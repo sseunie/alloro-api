@@ -35,5 +35,11 @@ class NotificationSeeder extends Seeder
             'url' => 'https://www.google.com/',
             'created_at' => Carbon::now()->modify('-3 day')
         ]);
+
+        DB::table('notifications')->insert([
+            'title' => 'Zapatos perdidos',
+            'text' => 'Se encontró un par de zapatos en el pasillo del segundo piso. El propietario que se presente si quiere recuperarlos.',
+            'created_at' => Carbon::now()->modify('-1 day')
+        ]);
     }
 }
