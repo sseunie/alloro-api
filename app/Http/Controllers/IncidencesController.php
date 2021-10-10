@@ -87,10 +87,24 @@ class IncidencesController extends Controller
 
         $this->saveFiles($files, $message, 'incidences/messages/');
 
-        if ($message->sender == 'residence') broadcast(new NewMessage($message->incidence_id))->toOthers();
+        if ($message->sender == 'residence') {
+            $incidence = Incidence::find($message->incidence_id);
+            $incidence->read = false;
+            $incidence->save();
+            broadcast(new NewMessage($message->incidence_id))->toOthers();
+        }
 
         return response()->json(Message::with('files')
             ->where('id', $message->id)->first());
+    }
+
+    public function updateReadStatus($id): JsonResponse
+    {
+        $incidence = Incidence::find($id);
+        $incidence->read = true;
+        $incidence->save();
+
+        return response()->json($incidence);
     }
 
     public function getResidences(): JsonResponse

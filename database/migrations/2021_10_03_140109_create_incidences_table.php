@@ -20,6 +20,7 @@ class CreateIncidencesTable extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('residence_id')->constrained();
             $table->foreignId('incidence_area_id')->constrained();
+            $table->boolean('read')->default(true);
             $table->boolean('closed')->default(false);
             $table->timestamps();
         });

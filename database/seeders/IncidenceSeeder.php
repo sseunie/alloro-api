@@ -22,6 +22,7 @@ class IncidenceSeeder extends Seeder
             'residence_id' => 3,
             'user_id' => 1,
             'closed' => true,
+            'read' => false,
             'created_at' => Carbon::now()->modify('-3 day')
         ]);
 
@@ -52,6 +53,7 @@ class IncidenceSeeder extends Seeder
             'incidence_area_id' => 3,
             'residence_id' => 2,
             'user_id' => 1,
+            'read' => false,
             'created_at' => Carbon::now()->modify('-6 minute')
         ]);
 
