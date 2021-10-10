@@ -91,7 +91,7 @@ class IncidencesController extends Controller
             $incidence = Incidence::find($message->incidence_id);
             $incidence->read = false;
             $incidence->save();
-            broadcast(new NewMessage($message->incidence_id))->toOthers();
+            broadcast(new NewMessage($incidence))->toOthers();
         }
 
         return response()->json(Message::with('files')

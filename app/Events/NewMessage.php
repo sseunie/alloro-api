@@ -15,16 +15,16 @@ class NewMessage implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $incidenceId;
+    public $incidence;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($incidenceId)
+    public function __construct(Incidence $incidence)
     {
-        $this->incidenceId = $incidenceId;
+        $this->incidence = $incidence;
     }
 
     /**
@@ -34,7 +34,7 @@ class NewMessage implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('incidences.user.'. $this->incidenceId);
+        return new Channel('incidences.user.'. $this->incidence->user_id);
     }
 
     public function broadcastAs()
@@ -50,7 +50,7 @@ class NewMessage implements ShouldBroadcast
                 ->with('files')
                 ->with('residence')
                 ->with('incidence_area')
-                ->where('id', $this->incidenceId)->first()
+                ->where('id', $this->incidence->id)->first()
         ];
     }
 }
