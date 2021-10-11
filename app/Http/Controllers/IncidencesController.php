@@ -59,7 +59,7 @@ class IncidencesController extends Controller
             'user_id' => $request->input('userId')
         ]);
 
-        $this->saveFiles($files, $incidence, 'incidences/');
+        $this->saveIncidenceFiles($files, $incidence, 'incidences/');
 
         return response()->json(Incidence::with('files')
             ->with('messages')
@@ -85,7 +85,7 @@ class IncidencesController extends Controller
             'text' => $request->input('text')
         ]);
 
-        $this->saveFiles($files, $message, 'incidences/messages/');
+        $this->saveMessageFiles($files, $message, 'incidences/messages/');
 
         if ($message->sender == 'residence') {
             $incidence = Incidence::find($message->incidence_id);
@@ -117,6 +117,22 @@ class IncidencesController extends Controller
         return response()->json(IncidenceArea::all());
     }
 
+    private function saveIncidenceFiles($files, $model, $path): void
+    {
+        foreach ($files as $filesEntry) {
+            for ($i = 0; $i < sizeof($filesEntry); $i++) {
+                $file = $filesEntry[$i];
+                $filename = $model->id . '_' . $i . '.' . $file->extension();
+                Storage::putFileAs('public/'. $path, $file, $filename);
+                IncidenceFile::create([
+                    'incidence_id' => $model->id,
+                    'url' => asset('storage/'. $path . $filename),
+                    'mime_type' => $file->getMimeType()
+                ]);
+            }
+        }
+    }
+
     private function filesAreInvalid($files): bool
     {
         $allowedMimeTypes = ['image/jpeg','image/gif','image/png','image/bmp'];
@@ -132,7 +148,7 @@ class IncidencesController extends Controller
         return false;
     }
 
-    private function saveFiles($files, $model, $path): void
+    private function saveMessageFiles($files, $model, $path): void
     {
         foreach ($files as $filesEntry) {
             for ($i = 0; $i < sizeof($filesEntry); $i++) {

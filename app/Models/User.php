@@ -33,4 +33,9 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function roomInitialState()
+    {
+        return $this->hasOne(RoomInitialState::class);
+    }
 }
