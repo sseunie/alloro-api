@@ -11,16 +11,16 @@ class RoomInitialState extends Model
 
     protected $fillable = [
         'user_id',
-        'text',
-        'chair',
-        'cork_board',
-        'desktop',
-        'towels',
-        'bed_sheets'
+        'text'
     ];
 
     public function images()
     {
         return $this->hasMany(RoomInitialStateImage::class);
+    }
+
+    public function inventory()
+    {
+        return $this->hasMany(RoomInventory::class);
     }
 }

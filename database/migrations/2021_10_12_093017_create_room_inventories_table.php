@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRoomInitialStatesTable extends Migration
+class CreateRoomInventoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateRoomInitialStatesTable extends Migration
      */
     public function up()
     {
-        Schema::create('room_initial_states', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->text('text');
-            $table->timestamps();
+        Schema::create('room_inventories', function (Blueprint $table) {
+            $table->foreignId('room_initial_state_id')->constrained();
+            $table->string('name');
+            $table->boolean('checked');
         });
     }
 
@@ -28,6 +27,6 @@ class CreateRoomInitialStatesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('room_initial_states');
+        Schema::dropIfExists('room_inventories');
     }
 }

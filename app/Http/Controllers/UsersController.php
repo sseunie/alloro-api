@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\MessageFile;
 use App\Models\RoomInitialState;
 use App\Models\RoomInitialStateImage;
+use App\Models\RoomInventory;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -12,9 +13,12 @@ use Illuminate\Support\Facades\Storage;
 
 class UsersController extends Controller
 {
+    const INVENTORY = ['silla', 'escritorio', 'tabla_de_corcho', 'toallas', 'sábanas'];
+
     public function getUser($id): JsonResponse
     {
         $user = User::with('roomInitialState')
+            ->with('roomInitialState.inventory')
             ->with('roomInitialState.images')
             ->where('id', $id)
             ->first();
@@ -35,17 +39,20 @@ class UsersController extends Controller
 
         $room = RoomInitialState::create([
             'user_id' => $userId,
-            'text' => $request->input('text'),
-            'chair' => $request->input('silla'),
-            'desktop' => $request->input('escritorio'),
-            'cork_board' => $request->input('tabla_de_corcho'),
-            'towels' => $request->input('toallas'),
-            'bed_sheets' => $request->input('sábanas')
+            'text' => $request->input('text')
         ]);
+
+        foreach (self::INVENTORY as $item) {
+            RoomInventory::create([
+                'room_initial_state_id' => $room->id,
+                'name' => str_replace('_', ' ', $item),
+                'checked' => $request->input($item)
+            ]);
+        }
 
         $this->saveFiles($files, $room->id, 'room/');
 
-        return response()->json(RoomInitialState::with('images')->find($room->id));
+        return response()->json(RoomInitialState::with('inventory')->with('images')->find($room->id));
     }
 
     public function userInventory($userId): JsonResponse
