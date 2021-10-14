@@ -4,6 +4,7 @@ use App\Http\Controllers\AbsencesController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\IncidencesController;
 use App\Http\Controllers\NotificationsController;
+use App\Http\Controllers\ReservationsController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,3 +38,8 @@ Route::middleware('auth:sanctum')->post('/incidences/{id}/messages', [Incidences
 
 Route::middleware('auth:sanctum')->get('/absences', [AbsencesController::class, 'getAbsences']);
 Route::middleware('auth:sanctum')->post('/absences', [AbsencesController::class, 'createAbsence']);
+
+Route::middleware('auth:sanctum')->get('/reservationRoomTypes', [ReservationsController::class, 'roomTypes']);
+Route::middleware('auth:sanctum')->get('/reservations', [ReservationsController::class, 'reservations']);
+Route::middleware('auth:sanctum')->post('/reservations', [ReservationsController::class, 'newReservation']);
+Route::middleware('auth:sanctum')->delete('/reservations/{id}', [ReservationsController::class, 'cancelReservation']);

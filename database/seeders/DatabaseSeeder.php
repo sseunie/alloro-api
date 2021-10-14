@@ -19,7 +19,9 @@ class DatabaseSeeder extends Seeder
             IncidenceAreaSeeder::class,
             IncidenceSeeder::class,
             AbsenceSeeder::class,
-            NotificationSeeder::class
+            NotificationSeeder::class,
+            ReservationRoomSeeder::class,
+            ReservationTimeRangeSeeder::class
         ]);
     }
 }
