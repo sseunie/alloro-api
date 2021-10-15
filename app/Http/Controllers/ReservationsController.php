@@ -17,19 +17,27 @@ class ReservationsController extends Controller
 
     public function reservations(Request $request): JsonResponse
     {
-        if ($request->has('type')) {
-            $strDate = $request->get('date');
+        $strDate = $request->get('date');
+        $userId = $request->get('userId');
+        $type = $request->get('type');
+
+        if ($type && $userId) {
+            return response()->json(Reservation::where('room_name', $type)
+                ->where('user_id', $userId)
+                ->get());
+        }
+        if($type) {
             $date = Carbon::createFromFormat('Y-m-d', $strDate)->setHour(0);
             $dateFormat = $date->format('Y-m-d H:i:s.u');
             $nextDateFormat = $date->addDays(1)->format('Y-m-d H:i:s.u');
 
-            return response()->json(Reservation::where('room_name', $request->type)
+            return response()->json(Reservation::where('room_name', $type)
                 ->where('start_date', '>=', $dateFormat)
                 ->where('start_date', '<=', $nextDateFormat)
                 ->get());
         }
-        if ($request->has('userId')) {
-            return response()->json(Reservation::where('user_id', $request->userId)->get());
+        if ($userId) {
+            return response()->json(Reservation::where('user_id', $userId)->get());
         }
         return response()->json(['message' => 'bad request'], 400);
     }
