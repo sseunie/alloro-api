@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
             AbsenceSeeder::class,
             NotificationSeeder::class,
             ReservationRoomSeeder::class,
-            ReservationTimeRangeSeeder::class
+            ReservationTimeRangeSeeder::class,
+            ChatSeeder::class
         ]);
     }
 }

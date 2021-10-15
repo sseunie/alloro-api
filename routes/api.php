@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AbsencesController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChatsController;
 use App\Http\Controllers\IncidencesController;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\ReservationsController;
@@ -43,3 +44,6 @@ Route::middleware('auth:sanctum')->get('/reservationRoomTypes', [ReservationsCon
 Route::middleware('auth:sanctum')->get('/reservations', [ReservationsController::class, 'reservations']);
 Route::middleware('auth:sanctum')->post('/reservations', [ReservationsController::class, 'newReservation']);
 Route::middleware('auth:sanctum')->delete('/reservations/{id}', [ReservationsController::class, 'cancelReservation']);
+
+Route::middleware('auth:sanctum')->get('/chats/{id}', [ChatsController::class, 'getChat']);
+Route::middleware('auth:sanctum')->post('/chats/{id}', [ChatsController::class, 'createMessage']);
