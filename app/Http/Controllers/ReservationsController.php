@@ -50,6 +50,6 @@ class ReservationsController extends Controller
         $reservation = Reservation::find($id);
         $reservation->delete();
 
-        return response()->status(200);
+        return response()->json(['message' => 'deleted']);
     }
 }
