@@ -26,6 +26,12 @@ class UsersController extends Controller
         return response()->json($user);
     }
 
+    public function getRoomInitialStateFinishDate($userId): JsonResponse
+    {
+        if ($userId == 2) return response()->json(array(['finish_date' => '2021-10-10 15:00:00.000000']));
+        return response()->json(array(['finish_date' => '2021-11-15 15:00:00.000000']));
+    }
+
     public function setRoomInitialState(Request $request, $userId): JsonResponse
     {
         if (!$request->has('text')) {

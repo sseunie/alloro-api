@@ -29,7 +29,7 @@ Route::get('/incidenceAreas', [IncidencesController::class, 'getIncidenceAreas']
 
 Route::middleware('auth:sanctum')->get('/users/{id}', [UsersController::class, 'getUser']);
 Route::middleware('auth:sanctum')->post('/users/{id}/room', [UsersController::class, 'setRoomInitialState']);
-Route::middleware('auth:sanctum')->post('/roomState-date', [UsersController::class, 'setRoomInitialState']);
+Route::middleware('auth:sanctum')->get('/roomState-date/{id}', [UsersController::class, 'getRoomInitialStateFinishDate']);
 Route::middleware('auth:sanctum')->get('/users/{id}/inventory', [UsersController::class, 'userInventory']);
 
 Route::middleware('auth:sanctum')->get('/incidences', [IncidencesController::class, 'getIncidences']);
