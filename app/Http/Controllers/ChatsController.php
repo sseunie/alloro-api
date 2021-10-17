@@ -79,4 +79,13 @@ class ChatsController extends Controller
             }
         }
     }
+
+    public function updateReadStatus($id): JsonResponse
+    {
+        $chat = Chat::find($id);
+        $chat->read = true;
+        $chat->save();
+
+        return response()->json($chat);
+    }
 }

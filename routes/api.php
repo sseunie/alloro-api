@@ -29,6 +29,7 @@ Route::get('/incidenceAreas', [IncidencesController::class, 'getIncidenceAreas']
 
 Route::middleware('auth:sanctum')->get('/users/{id}', [UsersController::class, 'getUser']);
 Route::middleware('auth:sanctum')->post('/users/{id}/room', [UsersController::class, 'setRoomInitialState']);
+Route::middleware('auth:sanctum')->post('/roomState-date', [UsersController::class, 'setRoomInitialState']);
 Route::middleware('auth:sanctum')->get('/users/{id}/inventory', [UsersController::class, 'userInventory']);
 
 Route::middleware('auth:sanctum')->get('/incidences', [IncidencesController::class, 'getIncidences']);
@@ -47,3 +48,4 @@ Route::middleware('auth:sanctum')->delete('/reservations/{id}', [ReservationsCon
 
 Route::middleware('auth:sanctum')->get('/chats/{id}', [ChatsController::class, 'getChat']);
 Route::middleware('auth:sanctum')->post('/chats/{id}', [ChatsController::class, 'createMessage']);
+Route::middleware('auth:sanctum')->patch('/chats/{id}', [ChatsController::class, 'updateReadStatus']);
