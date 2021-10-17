@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -20,6 +21,20 @@ class ChatSeeder extends Seeder
         ]);
         DB::table('chats')->insert([
             'user_id' => 2,
+        ]);
+
+        DB::table('chat_messages')->insert([
+            'text' => 'Bienvenido al chat con la Residencia.',
+            'chat_id' => 1,
+            'sender' => 'residence',
+            'created_at' => Carbon::now()->modify('-40 hour')
+        ]);
+
+        DB::table('chat_messages')->insert([
+            'text' => 'Bienvenido al chat con la Residencia.',
+            'chat_id' => 2,
+            'sender' => 'residence',
+            'created_at' => Carbon::now()->modify('-40 hour')
         ]);
     }
 }
