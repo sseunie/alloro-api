@@ -31,6 +31,13 @@ class ChatSeeder extends Seeder
         ]);
 
         DB::table('chat_messages')->insert([
+            'text' => '¡Buenas tardes!',
+            'chat_id' => 1,
+            'sender' => 'client',
+            'created_at' => Carbon::now()->modify('-38 hour')
+        ]);
+
+        DB::table('chat_messages')->insert([
             'text' => 'Bienvenido al chat con la Residencia.',
             'chat_id' => 2,
             'sender' => 'residence',

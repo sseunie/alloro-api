@@ -16,7 +16,7 @@ class CreateAbsencesTable extends Migration
         Schema::create('absences', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->string('observations');
+            $table->string('observations')->nullable();
             $table->dateTimeTz('start_date');
             $table->dateTimeTz('finish_date');
             $table->timestamps();

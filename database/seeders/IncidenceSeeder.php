@@ -17,7 +17,7 @@ class IncidenceSeeder extends Seeder
     {
         DB::table('incidences')->insert([
             'subject' => '¡Hay una gotera!',
-            'message' => 'El suelo se está inundando. SOS',
+            'message' => 'Hay una gotera en mi habitación y se está inundando el suelo.',
             'incidence_area_id' => 3,
             'residence_id' => 3,
             'user_id' => 1,
@@ -34,7 +34,7 @@ class IncidenceSeeder extends Seeder
         ]);
 
         DB::table('messages')->insert([
-            'text' => 'Gracias!',
+            'text' => '¡Gracias!',
             'incidence_id' => 1,
             'sender' => 'client',
             'created_at' => Carbon::now()->modify('-40 hour')
@@ -48,8 +48,8 @@ class IncidenceSeeder extends Seeder
         ]);
 
         DB::table('incidences')->insert([
-            'subject' => 'Rata',
-            'message' => 'Hay una rata corriendo libremente por la habitación',
+            'subject' => 'No funciona un enchufe',
+            'message' => 'Hay un enchufe en mi habitación que no funciona.',
             'incidence_area_id' => 3,
             'residence_id' => 2,
             'user_id' => 1,
