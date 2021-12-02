@@ -19,14 +19,14 @@ class NotificationSeeder extends Seeder
             'title' => 'Renovación de plaza para el próximo curso',
             'text' => 'Recuerda que el viernes 28 es el último día para solicitar la renovación de plaza en las Residencias Universitarias ULPGC para el próximo curso.',
             'url' => 'https://www.google.com/',
-            'created_at' => Carbon::now()->modify('-3 week')
+            'created_at' => Carbon::now()->modify('-1 week')
         ]);
 
         DB::table('notifications')->insert([
             'title' => 'Encuestas de evaluación',
             'text' => 'Hemos enviado a tu correo el enlace a la encuesta de evaluación de los servicios de las Residencias Universitarias ULPG, rogamos tu colaboración.',
             'url' => 'https://www.google.com/',
-            'created_at' => Carbon::now()->modify('-1 week')
+            'created_at' => Carbon::now()->modify('-3 week')
         ]);
 
         DB::table('notifications')->insert([
